@@ -98,7 +98,7 @@ exports.restrictTo = (...roles) =>
 */
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
   // 1) Get User body
-  const user = await User.findOne({ national_id: req.body.national_id });
+  const user = await User.findOne({ phone: req.body.phone });
   if (!user) {
     return next(
       new ApiError(

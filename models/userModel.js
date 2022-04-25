@@ -54,17 +54,13 @@ const userSchema = new mongoose.Schema(
     imageProfile: {
       type: String,
     },
-    place_of_birth: {
+    birthplace: {
       type: String,
       trim: true,
     },
-    address: {
-      alias: String,
-      details: String,
-      phone: String,
-      city: String,
-      postalCode: String,
-    },
+    alias: String,
+    details: String,
+    city: String,
     password: {
       type: String,
       required: [true, 'Please provide a password'],
