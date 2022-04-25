@@ -28,7 +28,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   const token = generateToken(user._id, process.env.JWT_EXPIRE_TIME);
 
   // console.log(user);
-  res.status(201).json({ data: sanitizeUser(user), token });
+  res.status(200).json({ data: sanitizeUser(user), token });
 });
 
 // @desc make sure user is authenticated
