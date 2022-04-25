@@ -166,10 +166,11 @@ exports.verifyPassResetCode = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/auth/resetPassword
 // @access  Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
+  console.log('newPassword', req.body);
   const user = await User.findById(req.user._id);
   if (!user) {
     return next(
-      new ApiError(`There is no user with email ${req.user.email}`, 404)
+      new ApiError(`There is no user with phone ${req.user.phone}`, 404)
     );
   }
 
