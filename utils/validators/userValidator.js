@@ -12,7 +12,7 @@ const checkData = () => {
       .custom((val) =>
         User.findOne({ national_id: val }).then((user) => {
           if (user) {
-            return Promise.reject(new Error('E-mail already in user'));
+            return Promise.reject(new Error('National ID already in user'));
           }
         })
       ),
