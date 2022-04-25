@@ -101,10 +101,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ phone: req.body.phone });
   if (!user) {
     return next(
-      new ApiError(
-        `there is no user with this National ID ${req.body.national_id}`,
-        404
-      )
+      new ApiError(`there is no user with this Phone ID ${req.body.phone}`, 404)
     );
   }
   // 2) if user exist generate reset random 6 digits and save it in db
