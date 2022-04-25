@@ -41,8 +41,8 @@ class ApiFeaturs {
     if (this.queryString.search) {
       const query = {};
       query.$or = [
-        { name: { $regex: this.queryString.keywords, $options: 'i' } },
-        { national_id: { $regex: this.queryString.keywords, $options: 'i' } },
+        { name: { $regex: this.queryString.search, $options: 'i' } },
+        { national_id: { $regex: this.queryString.search, $options: 'i' } },
       ];
 
       this.mongooseQuery = this.mongooseQuery.find(query);
