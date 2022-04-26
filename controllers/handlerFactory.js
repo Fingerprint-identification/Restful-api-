@@ -29,7 +29,7 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   asyncHandler(async (req, res, next) => {
-    console.log(req.body);
+    // console.log(req.body);
     const document = await Model.create(req.body);
     res.status(201).json({ data: document });
   });

@@ -22,25 +22,32 @@ exports.uploadReportImage = uploadSingleImage('picture');
 
 exports.resizeReportImage = asyncHandler(async (req, res, next) => {
   const filename = `reports-${uuidv4()}-${Date.now()}.webp`;
+  if (req.file) {
+    await sharp(req.file.buffer)
+      .resize(600, 600)
+      .toFormat('webp')
+      .webp({ quality: 85 })
+      .toFile(`uploads/reports/${filename}`);
 
-  await sharp(req.file.buffer)
-    .resize(600, 600)
-    .toFormat('webp')
-    .webp({ quality: 85 })
-    .toFile(`uploads/reports/${filename}`);
-
-  await cloudinary.v2.uploader.upload(
-    `uploads/reports/${filename}`,
-    { public_id: filename },
-    (error, result) => {
-      req.body.picture = result.secure_url;
-      req.body.user = req.user_id;
-    }
-  );
+    await cloudinary.v2.uploader.upload(
+      `uploads/reports/${filename}`,
+      { public_id: filename },
+      (error, result) => {
+        req.body.picture = result.secure_url;
+        req.body.user = req.user_id;
+      }
+    );
+  }
 
   next();
 });
 
+exports.setUserId = (req, res, next) => {
+  // console.log(req.user);
+  req.body.user = req.user._id;
+  // console.log(req.body);
+  next();
+};
 exports.createReport = factory.createOne(Report);
 
 exports.getReports = factory.getAll(Report);

@@ -8,6 +8,7 @@ const {
   createReport,
   uploadReportImage,
   resizeReportImage,
+  setUserId,
 } = require('../controllers/reportController');
 
 const {
@@ -22,7 +23,7 @@ const router = express.Router();
 router
   .route('/')
   .get(getReports)
-  .post(protect, uploadReportImage, resizeReportImage, createReport);
+  .post(protect, uploadReportImage, resizeReportImage, setUserId, createReport);
 router
   .route('/:id')
   .get(getReport)

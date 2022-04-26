@@ -19,6 +19,7 @@ exports.UpdateReportValidator = [
         if (!report) {
           return Promise.reject(new Error(`There is no report with id ${val}`));
         }
+        console.log(req.user);
 
         if (report.user._id.toString() !== req.user._id.toString()) {
           return Promise.reject(
