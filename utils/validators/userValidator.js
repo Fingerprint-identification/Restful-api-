@@ -75,6 +75,24 @@ exports.createUserValidator = [
   check('passwordConfirm')
     .notEmpty()
     .withMessage('Password confirmation required'),
+
+  // check('mother_id').custom(async (val, { req }) => {
+  //   const user = await User.findOne({ national_id: val });
+  //   if (!user) return Promise.reject(new Error('mother Id Not found'));
+
+  //   req.body.mother_id = user._id.toString();
+  //   // console.log(req.body.mother_id);
+  //   return true;
+  // }),
+  // check('father_id').custom((val, { req }) => {
+  //   User.findOne({ national_id: val }).then((user) => {
+  //     // console.log(user);
+  //     if (!user) return Promise.reject(new Error('father Id Not found'));
+  //     req.body.father_id = user._id.toString();
+  //     console.log(req.body.father_id);
+  //   });
+  //   return true;
+  // }),
   validatorMiddleware,
 ];
 

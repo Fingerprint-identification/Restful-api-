@@ -66,6 +66,14 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Please provide a password'],
       select: false,
     },
+    mother_id: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Users',
+    },
+    father_id: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Users',
+    },
     passwordChangedAt: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,

@@ -25,6 +25,15 @@ mountRoutes(app);
 app.use(globalErrorHandler);
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`App is running on port ${PORT}`);
+});
+
+// handling Rejection Errors
+process.on('unhandledRejection', (err) => {
+  console.error(`unhandledRejection Error: ${err.name} | ${err.message}`);
+  server.close(() => {
+    console.error(`Shutting down....`);
+    process.exit(1);
+  });
 });
