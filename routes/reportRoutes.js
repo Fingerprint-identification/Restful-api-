@@ -21,10 +21,6 @@ const { protect, restrictTo } = require('../controllers/authController');
 const router = express.Router();
 
 router
-  .route('/')
-  .get(getReports)
-  .post(protect, uploadReportImage, resizeReportImage, setUserId, createReport);
-router
   .route('/:id')
   .get(getReport)
   .put(
