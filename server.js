@@ -1,5 +1,4 @@
 const express = require('express');
-const { useTreblle } = require('treblle');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 
@@ -19,13 +18,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
   console.log(`mode: ${process.env.NODE_ENV}`);
 }
-// MONITOR ONLY the "production" ENVIROMENT
-if (process.env.NODE_ENV === 'production') {
-  useTreblle(app, {
-    apiKey: 'KwJvDxuS0ZNxpMbb86xlPveYsG9tPahP',
-    projectId: 'R6huJ8xblkd41Gfp',
-  });
-}
+
 appSecuirty(app);
 // Mountes Routes
 mountRoutes(app);
