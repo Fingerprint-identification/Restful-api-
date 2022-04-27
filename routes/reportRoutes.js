@@ -20,7 +20,12 @@ const { protect, restrictTo } = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').get(getReports).post(protect);
+router
+  .route('/')
+  .get(getReports)
+  .post((req, res) => {
+    res.send('hi');
+  });
 router
   .route('/:id')
   .get(getReport)
