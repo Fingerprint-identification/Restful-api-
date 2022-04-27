@@ -98,5 +98,17 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// Mongoose query middleware
+userSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'mother_id',
+    select: 'national_id name phone nationality',
+  }).populate({
+    path: 'father_id',
+    select: 'national_id name phone nationality',
+  });
+  next();
+});
+
 const User = mongoose.model('Users', userSchema);
 module.exports = User;

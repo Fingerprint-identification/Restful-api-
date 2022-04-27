@@ -76,14 +76,20 @@ exports.createUserValidator = [
     .notEmpty()
     .withMessage('Password confirmation required'),
 
-  // check('mother_id').custom(async (val, { req }) => {
-  //   const user = await User.findOne({ national_id: val });
-  //   if (!user) return Promise.reject(new Error('mother Id Not found'));
+  check('mother').custom(async (val, { req }) => {
+    const user = await User.findOne({ national_id: val });
+    if (!user) return Promise.reject(new Error('mother Id Not found'));
 
-  //   req.body.mother_id = user._id.toString();
-  //   // console.log(req.body.mother_id);
-  //   return true;
-  // }),
+    req.body.mother_id = user._id.toString();
+    return true;
+  }),
+  check('father').custom(async (val, { req }) => {
+    const user = await User.findOne({ national_id: val });
+    if (!user) return Promise.reject(new Error('mother Id Not found'));
+
+    req.body.father_id = user._id.toString();
+    return true;
+  }),
   // check('father_id').custom((val, { req }) => {
   //   User.findOne({ national_id: val }).then((user) => {
   //     // console.log(user);
