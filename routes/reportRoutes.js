@@ -23,9 +23,7 @@ const router = express.Router();
 router
   .route('/')
   .get(getReports)
-  .post((req, res) => {
-    res.send('hi');
-  });
+  .post(protect, uploadReportImage, resizeReportImage, setUserId, createReport);
 router
   .route('/:id')
   .get(getReport)
