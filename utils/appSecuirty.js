@@ -5,16 +5,41 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
-// const cookieParser = require("cookie-parser");
-// const csrf = require("csurf");
+const RedisStore = require('connect-redis')(session);
 
-// const csrfProtection = csrf({ cookie: true });
+// redis@v4
+const { createClient } = require('redis');
+
+const redisClient = createClient({ legacyMode: true });
+redisClient.connect().catch(console.error);
 
 const security = (app) => {
   app.use(cors());
   app.options('*', cors());
   app.use(compression());
   app.use(helmet());
+  app.set('trust proxy', 1);
+
+  app.use(
+    session({
+      cookie: {
+        secure: true,
+        maxAge: 60000,
+      },
+      store: new RedisStore({ client: redisClient }),
+      secret: 'secret',
+      saveUninitialized: true,
+      resave: false,
+    })
+  );
+
+  // app.use(function(req,res,next){
+  // if(!req.session){
+  //     return next(new Error('Oh no')) //handle error
+  // }
+  // next() //otherwise continue
+  // });
+
   app.use(
     session({
       secret: process.env.JWT_SECRET_KEY,
