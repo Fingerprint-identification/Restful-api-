@@ -20,14 +20,10 @@ const { protect, restrictTo } = require('../controllers/authController');
 
 const router = express.Router();
 
-router.post(
-  '/',
-  protect,
-  setUserId,
-  uploadReportImage,
-  resizeReportImage,
-  createReport
-);
+router
+  .route('/')
+  .get(getReports)
+  .post(protect, setUserId, uploadReportImage, resizeReportImage, createReport);
 
 router
   .route('/:id')
