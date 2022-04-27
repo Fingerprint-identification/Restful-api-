@@ -7,6 +7,7 @@ const mountRoutes = require('./routes');
 
 const globalErrorHandler = require('./middlewares/errorMiddelware');
 const appSecuirty = require('./utils/appSecuirty');
+const ApiError = require('./utils/apiError');
 
 dotenv.config();
 dbConnection();
@@ -21,6 +22,11 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mountes Routes
 mountRoutes(app);
+
+app.all('*', (req, res, next) => {
+  // Create Error and send it to error handler
+  next(new ApiError(`Can't find this route ${req.originalUrl}`, 400));
+});
 
 app.use(globalErrorHandler);
 const PORT = process.env.PORT || 8000;
