@@ -5,46 +5,26 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
-const RedisStore = require('connect-redis')(session);
+const MemoryStore = require('memorystore')(session);
+// const cookieParser = require("cookie-parser");
+// const csrf = require("csurf");
 
-// redis@v4
-const { createClient } = require('redis');
-
-const redisClient = createClient({ legacyMode: true });
-redisClient.connect().catch(console.error);
+// const csrfProtection = csrf({ cookie: true });
 
 const security = (app) => {
   app.use(cors());
   app.options('*', cors());
   app.use(compression());
   app.use(helmet());
-  app.set('trust proxy', 1);
-
   app.use(
     session({
-      cookie: {
+      cookie: { maxAge: 86400000 },
+      store: new MemoryStore({
+        checkPeriod: 86400000, // prune expired entries every 24h
         secure: true,
-        maxAge: 60000,
-      },
-      store: new RedisStore({ client: redisClient }),
-      secret: 'secret',
-      saveUninitialized: true,
-      resave: false,
-    })
-  );
-
-  // app.use(function(req,res,next){
-  // if(!req.session){
-  //     return next(new Error('Oh no')) //handle error
-  // }
-  // next() //otherwise continue
-  // });
-
-  app.use(
-    session({
+        httpOnly: true,
+      }),
       secret: process.env.JWT_SECRET_KEY,
-      key: 'SiteCookies',
-      cookie: { secure: true, httpOnly: true, path: '/', sameSite: true },
       resave: true,
       saveUninitialized: true,
     })
