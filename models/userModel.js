@@ -74,6 +74,11 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Users',
     },
+    uniqueID: {
+      type: String,
+      index: { unique: true, dropDups: true },
+      unique: true,
+    },
     passwordChangedAt: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,

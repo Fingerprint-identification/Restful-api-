@@ -46,6 +46,7 @@ exports.getOne = (Model, populateOpt) =>
       return next(new ApiError(`No Document for this id ${id}`, 400));
     }
     res.status(200).json({ data: document });
+    res.end();
   });
 
 exports.getAll = (Model) =>
@@ -71,4 +72,5 @@ exports.getAll = (Model) =>
     res
       .status(200)
       .json({ results: documents.length, paginationResult, data: documents });
+    res.end();
   });

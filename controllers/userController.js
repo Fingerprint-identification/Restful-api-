@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const { v4: uuidv4 } = require('uuid');
 
 const ApiError = require('../utils/apiError');
 const factory = require('./handlerFactory');
@@ -83,4 +84,13 @@ exports.getmatrics = asyncHandler(async (req, res) => {
   res.status(200).json({
     users,
   });
+});
+
+exports.getUniqueID = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  if (!user) return next(new ApiError('User not found', 404));
+  const uniqueID = `${req.user._id}-${uuidv4()}`;
+  user.uniqueID = uniqueID;
+  user.save();
+  res.status(201).json({ uniqueID });
 });

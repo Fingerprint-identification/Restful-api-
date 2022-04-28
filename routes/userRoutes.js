@@ -11,6 +11,7 @@ const {
   updateLoggedUserData,
   updateLoggedUserPassowrd,
   getmatrics,
+  getUniqueID,
 } = require('../controllers/userController');
 const {
   createUserValidator,
@@ -30,6 +31,7 @@ router.get('/matricsOfFinger', getmatrics);
 
 router.use(protect);
 router.get('/getMe', getLoggedUserData, getUser);
+router.get('/getUniqueID', getUniqueID);
 
 router.put('/updateMyData', updateLoggedUserValidator, updateLoggedUserData);
 
