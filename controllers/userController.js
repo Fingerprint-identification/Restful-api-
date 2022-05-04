@@ -94,3 +94,12 @@ exports.getUniqueID = asyncHandler(async (req, res, next) => {
   user.save();
   res.status(201).json({ uniqueID });
 });
+
+exports.setRoleAdmin = asyncHandler(async (req, res, next) => {
+  req.body.role = 'admin';
+  next();
+});
+exports.setRoleUser = asyncHandler(async (req, res, next) => {
+  req.body.role = 'user';
+  next();
+});

@@ -12,6 +12,8 @@ const {
   updateLoggedUserPassowrd,
   getmatrics,
   getUniqueID,
+  setRoleAdmin,
+  setRoleUser,
 } = require('../controllers/userController');
 const {
   createUserValidator,
@@ -41,11 +43,19 @@ router.patch(
   updateLoggedUserPassowrd
 );
 
-router.use(restrictTo('admin'));
+// create Admin
+router
+  .route('/owner')
+  .get(restrictTo('onwer'), getUsers)
+  .post(restrictTo('onwer'), setRoleAdmin, createUser);
 
-// router.route('/national/:nationalId').get(getUser);
+router.use(restrictTo('admin', 'onwer'));
 
-router.route('/').get(getUsers).post(createUserValidator, createUser);
+// create user
+router
+  .route('/')
+  .get(getUsers)
+  .post(createUserValidator, setRoleUser, createUser);
 router
   .route('/:id')
   .get(getUserValidator, getUser)
