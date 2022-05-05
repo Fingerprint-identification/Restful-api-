@@ -46,10 +46,10 @@ router.patch(
 // create Admin
 router
   .route('/owner')
-  .get(restrictTo('onwer'), getUsers)
-  .post(restrictTo('onwer'), setRoleAdmin, createUser);
+  .get(restrictTo('owner'), getUsers)
+  .post(restrictTo('owner'), setRoleAdmin, createUser);
 
-router.use(restrictTo('admin', 'onwer'));
+router.use(restrictTo('admin', 'owner'));
 
 // create user
 router
