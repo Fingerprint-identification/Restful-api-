@@ -94,6 +94,11 @@ exports.getUniqueID = asyncHandler(async (req, res, next) => {
   user.save();
   res.status(201).json({ uniqueID });
 });
+exports.searchByUniqueID = asyncHandler(async (req, res, next) => {
+  const user = await User.find({ uniqueID: req.params.UniqueID });
+  if (!user) return next(new ApiError('User not found', 404));
+  res.status(201).json({ user });
+});
 
 exports.setRoleAdmin = asyncHandler(async (req, res, next) => {
   req.body.role = 'admin';

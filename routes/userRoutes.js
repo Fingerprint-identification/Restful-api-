@@ -13,6 +13,7 @@ const {
   getmatrics,
   getUniqueID,
   setRoleAdmin,
+  searchByUniqueID,
   setRoleUser,
 } = require('../controllers/userController');
 const {
@@ -34,6 +35,7 @@ router.get('/matricsOfFinger', getmatrics);
 router.use(protect);
 router.get('/getMe', getLoggedUserData, getUser);
 router.get('/getUniqueID', getUniqueID);
+router.get('/getUniqueID/:UniqueID', searchByUniqueID);
 
 router.put('/updateMyData', updateLoggedUserValidator, updateLoggedUserData);
 
