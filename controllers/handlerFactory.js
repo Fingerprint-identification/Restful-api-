@@ -47,8 +47,10 @@ exports.getOne = (Model, populateOpt) =>
       return next(new ApiError(`No Document for this id ${id}`, 400));
     }
     const message = `we founded ${document.name} with id ${document.national_id}`;
-    await new SMS(message, document.father_id.phone).send();
-    await new SMS(message, document.mother_id.phone).send();
+    if (req.user._id !== id) {
+      await new SMS(message, document.father_id.phone).send();
+      await new SMS(message, document.mother_id.phone).send();
+    }
     res.status(200).json({ data: document });
     res.end();
   });
