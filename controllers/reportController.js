@@ -50,7 +50,7 @@ exports.setUserId = (req, res, next) => {
 };
 exports.createReport = factory.createOne(Report);
 
-exports.getReports = factory.getAll(Report);
+exports.getReports = factory.getAll(Report,'Reports');
 
 exports.getReport = factory.getOne(Report);
 

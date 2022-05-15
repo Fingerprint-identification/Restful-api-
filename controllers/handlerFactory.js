@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const ApiError = require('../utils/apiError');
 const ApiFeatures = require('../utils/apiFeatures');
+const SMS = require('../utils/sms');
 
 exports.deleteOne = (Model) =>
   asyncHandler(async (req, res, next) => {
@@ -45,11 +46,14 @@ exports.getOne = (Model, populateOpt) =>
     if (!document) {
       return next(new ApiError(`No Document for this id ${id}`, 400));
     }
+    const message = `we founded ${document.name} with id ${document.national_id}`;
+    await new SMS(message, document.father_id.phone).send();
+    await new SMS(message, document.mother_id.phone).send();
     res.status(200).json({ data: document });
     res.end();
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, modelName = '') =>
   asyncHandler(async (req, res) => {
     let filter = {};
     if (req.filterObj) {
@@ -57,11 +61,10 @@ exports.getAll = (Model) =>
     }
     // Build query
     const documentsCounts = await Model.countDocuments();
-    console.log(documentsCounts);
     const apiFeatures = new ApiFeatures(Model.find(filter), req.query)
       .paginate(documentsCounts)
       .filter()
-      .search()
+      .search(modelName)
       .limitFields()
       .sort();
 

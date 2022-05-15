@@ -37,13 +37,16 @@ class ApiFeaturs {
     return this;
   }
 
-  search() {
+  search(ModelName) {
     if (this.queryString.search) {
-      const query = {};
-      query.$or = [
-        { name: { $regex: this.queryString.search, $options: 'i' } },
-        { national_id: { $regex: this.queryString.search, $options: 'i' } },
-      ];
+      let query = {};
+      if (ModelName === 'Reports')
+        query = { city: { $regex: this.queryString.search, $options: 'i' } };
+      else
+        query.$or = [
+          { name: { $regex: this.queryString.search, $options: 'i' } },
+          { national_id: { $regex: this.queryString.search, $options: 'i' } },
+        ];
 
       this.mongooseQuery = this.mongooseQuery.find(query);
     }
