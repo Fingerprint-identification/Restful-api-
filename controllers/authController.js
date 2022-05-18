@@ -26,7 +26,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   }
   // generate token
   const token = generateToken(user._id, process.env.JWT_EXPIRE_TIME);
-
+  user.token = token;
+  user.save();
   // console.log(user);
   res.status(200).json({ data: sanitizeUser(user), token });
 });

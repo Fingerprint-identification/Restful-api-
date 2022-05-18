@@ -79,6 +79,7 @@ const userSchema = new mongoose.Schema(
       index: { unique: true, dropDups: true },
       unique: true,
     },
+    token: String,
     passwordChangedAt: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,
